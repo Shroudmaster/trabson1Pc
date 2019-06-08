@@ -48,7 +48,9 @@ def rk2(values, t=0, h=0.1, iterations=3):
 
 	return v,h_variation
 
-def imp(values, h=0.1, iterations=3):
+def imp(values, b, iterations=3, a=0):
+	h = (b - a) / iterations
+
 	v,h_variation = rk2(values,0,h,2)
 	aux = [0,0,0]
 
@@ -108,4 +110,4 @@ def imp(values, h=0.1, iterations=3):
 
 
 
-print(imp([1000,100,10], 0.1, 1))
+print(imp([1000,100,10], 100, 100))
