@@ -27,11 +27,11 @@ def rk2(values, t=0, h=0.1, iterations=3):
 	for _ in range(iterations):
 		tp = t + h
 		h_variation.append(tp)
-		
+
 		k1 = sir(t, values)
-		
+
 		aux = [values[0]+(h*k1[0]), values[1]+(h*k1[1]), values[2]+(h*k1[2])]
-		
+
 		k2 = sir(tp, aux)
 
 		values[0] = values[0] + (h/2)*(k1[0]+k2[0])
@@ -57,8 +57,8 @@ def imp(values, b, iterations=3, a=0):
 		k3 = susceptible(h_variation[-3], v[-3])
 
 		aux[0] = v[-1][0] + ((h/12)*((23*k1) - (16*k2) + (5*k3)))
-		
-		# calculando para a equação 2		
+
+		# calculando para a equação 2
 		k1 = infectious(h_variation[-1], v[-1])
 		k2 = infectious(h_variation[-2], v[-2])
 		k3 = infectious(h_variation[-3], v[-3])
@@ -100,7 +100,7 @@ def imp(values, b, iterations=3, a=0):
 		aux[2] = v[-2][2] + ((h/24)*((9*k1) + (19*k2) - (5*k3) + k4))
 
 		v[-1] = aux.copy()
-	
+
 	return v, h_variation
 
 
@@ -133,11 +133,11 @@ gamma = 0.126     #velocidade da perda de interesse
 
 # beta, gamma = 3, 0.9
 
-alfa, beta, gamma = 0.001, 0.003, 0.9
+alfa, beta, gamma = 0.015, 0.003, 3.3
 
 values = [1000,50,10]  # S(0), I(0), R(0)
 if check(values):
-	v, h = imp(values.copy(), 100, 1000)
+	v, h = imp(values.copy(), 20, 800)
 
 	plot(v, h)
 else:
