@@ -19,7 +19,7 @@ def sir(t, values):
 	return susceptible(t, values), infectious(t, values), recovered(t, values)
 
 
-def rk2(values, t=0, h=0.1, iterations=3):
+def rk2(values, t=0, h=0.1, iterations=3):  #implementacao do rk2 para valores iniciais
 	aux = [0,0,0]
 	v = [values.copy()]
 	h_variation = [t]
@@ -51,6 +51,9 @@ def imp(values, b, iterations=3, a=0):
 
 	for _ in range(iterations):
 		# primeiro calculamos o proximo valor para depois corrigi-lo com o implicito
+		# o proximo valor e calculado usando o adams-bashfort e a correcao e feita com
+		# o adams-moulton
+
 		# calculando para a equação 1
 		k1 = susceptible(h_variation[-1], v[-1])
 		k2 = susceptible(h_variation[-2], v[-2])
@@ -75,6 +78,7 @@ def imp(values, b, iterations=3, a=0):
 		v.append(aux.copy())
 
 		# agora que obtemos o novo vamos vamos corrigi-lo
+
 		# calculando para a equação 1
 		k1 = susceptible(h_variation[-1], v[-1])
 		k2 = susceptible(h_variation[-2], v[-2])
@@ -104,7 +108,7 @@ def imp(values, b, iterations=3, a=0):
 	return v, h_variation
 
 
-def plot(v, h):
+def plot(v, h):   #funcao que plota o grafico do resultado
 	v = np.array(v)
 	s = v[:, 0]
 	i = v[:, 1]
@@ -122,23 +126,23 @@ def check(values):
 	# return (alfa-beta)*values[0] + beta*sum(values) - gamma <= 0
 	return 1
 
+# alfa, beta, gamma = 0.015, 0.003, 3.3
+# values = [1000,50,10]  # S(0), I(0), R(0)
 
-alfa = 0.578      #quantidade de tempo suscetivel a contaminação
-beta = 0.391      #chance de reinfecção do meme
-gamma = 0.126     #velocidade da perda de interesse
+alfa = float(input("Digite o valor do alfa (quantidade de tempo suscetivel a contaminação): "))
+beta = float(input("Digite o valor do beta (chance de reinfecção do meme): "))
+gamma = float(input("Digite o valor do gamma (velocidade da perda de interesse): "))
 
-# alfa  = 5.57e-1     # quantidade de tempo suscetivel a contaminação
-# beta  = 3.91e-4     # chance de reinfecção do meme
-# gamma = 1.26e-2     # velocidade da perda de interesse
 
-# beta, gamma = 3, 0.9
+s = int(input("Digite o valor inicial de individuos suscetiveis a contaminacao: "))
+i = int(input("Digite o valor inicial de individuos infectados: "))
+r = int(input("Digite o valor inicial de individuos recuperados: "))
 
-alfa, beta, gamma = 0.015, 0.003, 3.3
+values = [s,i,r]
 
-values = [1000,50,10]  # S(0), I(0), R(0)
 if check(values):
 	v, h = imp(values.copy(), 20, 800)
-
 	plot(v, h)
+
 else:
 	print("Valores inapropriados")
